@@ -1,34 +1,34 @@
-import { useEffect, useState } from 'react';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import Header from '../components/Header';
-import { Score } from '../types/scores';
-import ScoreCard from '../components/ScoreCard';
-import { getScores } from '../data/api';
+import { JSX } from 'react';
+import ScoreDetailsView from '../views/ScoreDetailsView';
+import ScoresListView from '../views/ScoresListView';
 
-function App() {
-  const [scores, setScores] = useState<Score[]>([]);
+interface RouteProps {
+  View: () => JSX.Element;
+}
 
-  useEffect(() => {
-    async function fetchScores() {
-      const scores = await getScores();
-      setScores(scores);
-    }
-    fetchScores();
-  }, []);
-
+function Route({ View }: RouteProps) {
   return (
     <div className="h-screen">
       <Header />
 
       <div className="container mx-auto">
-        <div className="grid grid-cols-3 gap-3">
-          {scores.map((score) => (
-            <ScoreCard key={score.id} score={score} />
-          ))}
-        </div>
+        <View />
       </div>
     </div>
   );
+}
+
+export const router = createBrowserRouter([
+  { path: '/', element: <Route View={ScoresListView} /> },
+  { path: '/scores', element: <Route View={ScoresListView} /> },
+  { path: '/scores/:scoreId', element: <Route View={ScoreDetailsView} /> },
+]);
+
+function App() {
+  return <RouterProvider router={router} />;
 }
 
 export default App;

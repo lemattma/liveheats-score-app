@@ -1,6 +1,7 @@
 import { Score, ScoreStatus } from '../types/scores';
 
 import { ArrowRightIcon } from '@heroicons/react/24/solid';
+import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import { twMerge } from 'tw-merge';
 
@@ -30,8 +31,8 @@ function ScoreCardStatus({ score }: ScoreCardProps) {
 
 function ScoreCard({ score }: ScoreCardProps) {
   return (
-    <a
-      href="/"
+    <Link
+      to={`/scores/${score.id}`}
       className={clsx(
         'transition-all duration-150 border border-gray-200 bg-gray-50 rounded-xl shadow p-4',
         'outline outline-2 outline-transparent hover:outline-gray-500/10 active:scale-[.99]'
@@ -45,7 +46,7 @@ function ScoreCard({ score }: ScoreCardProps) {
         Standings
         <ArrowRightIcon className="inline-block w-5 h-5 stroke-2" />
       </span>
-    </a>
+    </Link>
   );
 }
 
