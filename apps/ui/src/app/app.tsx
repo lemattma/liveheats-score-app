@@ -1,9 +1,9 @@
-import NxWelcome from './nx-welcome';
+import Header from '../components/Header';
 
-export function App() {
+function App() {
   return (
-    <div>
-      <NxWelcome title="ui" />
+    <div className="h-screen">
+      <Header />
     </div>
   );
 }
