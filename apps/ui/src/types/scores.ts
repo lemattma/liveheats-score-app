@@ -12,5 +12,5 @@ export interface Score {
   id: string;
   title: string;
   status: ScoreStatus;
-  participants?: Participant[];
+  participants: Participant[];
 }

@@ -9,27 +9,33 @@ const initialScores: Score[] = [
     id: genScoreId(),
     title: 'Year 1',
     status: ScoreStatus.ENDED,
+    participants: [{ name: 'Amanda' }, { name: 'Gabe' }],
   },
   {
     id: genScoreId(),
     title: 'High School race',
     status: ScoreStatus.LIVE,
+    participants: [{ name: 'Amanda' }, { name: 'Gabe' }],
   },
   {
     id: genScoreId(),
     title: 'Year 6 race',
     status: ScoreStatus.UPCOMING,
+    participants: [{ name: 'Amanda' }, { name: 'Gabe' }],
   },
 ];
 
 export async function getScores(): Promise<Score[]> {
-  return localStorage.getItem('scores')
-    ? JSON.parse(localStorage.getItem('scores') as string)
-    : initialScores;
+  const storedScores = localStorage.getItem('scores');
+  if (storedScores) return JSON.parse(storedScores);
+
+  localStorage.setItem('scores', JSON.stringify(initialScores));
+  return initialScores;
 }
 
 export async function getScore(id: string): Promise<Score | undefined> {
-  return initialScores.find((score) => score.id === id);
+  const scores = await getScores();
+  return scores.find((score) => score.id === id);
 }
 
 export async function saveScore(score: Score): Promise<void> {

@@ -1,8 +1,9 @@
 import { Link, useParams } from 'react-router-dom';
+import { Score, ScoreStatus } from '../types/scores';
 import { useEffect, useState } from 'react';
 
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
-import { Score } from '../types/scores';
+import { ScoreCardStatus } from '../components/ScoreCard';
 import { getScore } from '../data/api';
 
 function ScoreDetailsView() {
@@ -17,6 +18,8 @@ function ScoreDetailsView() {
     if (scoreId) fetchScore(scoreId);
   }, [scoreId]);
 
+  if (!score) return;
+
   return (
     <>
       <div className="mb-1">
@@ -25,7 +28,44 @@ function ScoreDetailsView() {
           All scores
         </Link>
       </div>
-      <h1 className="font-semibold text-3xl">{score?.title}</h1>
+
+      <div className="mb-6">
+        <h1 className="font-semibold text-3xl">{score?.title}</h1>
+        <ScoreCardStatus score={score} />
+      </div>
+
+      {score?.status === ScoreStatus.ENDED && (
+        <>
+          <h5 className="font-semibold">Final results</h5>
+          <ol className="list-inside list-decimal">
+            {score?.participants.map((participant, index) => (
+              <li key={index}>{participant.name}</li>
+            ))}
+          </ol>
+        </>
+      )}
+
+      {score?.status === ScoreStatus.UPCOMING && (
+        <>
+          <h5 className="font-semibold">Initial standing</h5>
+          <ol className="list-inside list-decimal">
+            {score?.participants.map((participant, index) => (
+              <li key={index}>{participant.name}</li>
+            ))}
+          </ol>
+        </>
+      )}
+
+      {score?.status === ScoreStatus.LIVE && (
+        <>
+          <h5 className="font-semibold">Live results</h5>
+          <ol className="list-inside list-decimal">
+            {score?.participants.map((participant, index) => (
+              <li key={index}>{participant.name}</li>
+            ))}
+          </ol>
+        </>
+      )}
     </>
   );
 }
