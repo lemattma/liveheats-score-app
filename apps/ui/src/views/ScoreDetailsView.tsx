@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-import { ArrowLeftIcon } from '@heroicons/react/24/solid';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { Score } from '../types/scores';
 import { getScore } from '../data/api';
 
@@ -19,9 +19,9 @@ function ScoreDetailsView() {
 
   return (
     <>
-      <div className="text-sm">
-        <Link to="/scores" className="flex gap-1">
-          <ArrowLeftIcon className="w-5 h-5" />
+      <div className="mb-1">
+        <Link to="/scores" className="flex items-center gap-1 text-black/60">
+          <ArrowLeftIcon className="w-4 h-4 stroke-2" />
           All scores
         </Link>
       </div>

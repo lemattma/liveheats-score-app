@@ -4,9 +4,13 @@ export enum ScoreStatus {
   ENDED,
 }
 
+type Participant = {
+  name: string;
+};
+
 export interface Score {
   id: string;
   title: string;
-  date: Date;
   status: ScoreStatus;
+  participants?: Participant[];
 }
