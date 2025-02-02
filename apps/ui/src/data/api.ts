@@ -1,18 +1,22 @@
 import { Score, ScoreStatus } from '../types/scores';
 
+import _ from 'lodash';
+
+const genScoreId = () => `SC-${_.random(11111, 99999)}`;
+
 const initialScores: Score[] = [
   {
-    id: '032EA55EF692',
+    id: genScoreId(),
     title: 'Year 1',
     status: ScoreStatus.ENDED,
   },
   {
-    id: '58FE362F36F4',
+    id: genScoreId(),
     title: 'High School race',
     status: ScoreStatus.LIVE,
   },
   {
-    id: 'AF0E130D9300',
+    id: genScoreId(),
     title: 'Year 6 race',
     status: ScoreStatus.UPCOMING,
   },
@@ -29,6 +33,10 @@ export async function getScore(id: string): Promise<Score | undefined> {
 }
 
 export async function saveScore(score: Score): Promise<void> {
-  initialScores.push(score);
+  initialScores.push({
+    ...score,
+    id: genScoreId(),
+  });
+
   localStorage.setItem('scores', JSON.stringify(initialScores));
 }
