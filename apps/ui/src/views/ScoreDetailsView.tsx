@@ -1,20 +1,31 @@
 import { Link, useParams } from 'react-router-dom';
 import { Score, ScoreStatus } from '../types/scores';
+import { getScore, updateScore } from '../data/api';
 import { useEffect, useState } from 'react';
 
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { ScoreCardStatus } from '../components/ScoreCard';
-import { getScore } from '../data/api';
+import ordinal from 'ordinal';
 
 function ScoreDetailsView() {
   const [score, setScore] = useState<Score>();
   const { scoreId } = useParams<{ scoreId: string }>();
 
   useEffect(() => {
+    async function saveScore() {
+      if (!score) return;
+      updateScore(score);
+    }
+
+    saveScore();
+  }, [score, score?.status]);
+
+  useEffect(() => {
     async function fetchScore(scoreId: string) {
       const scores = await getScore(scoreId);
       setScore(scores);
     }
+
     if (scoreId) fetchScore(scoreId);
   }, [scoreId]);
 
@@ -29,19 +40,41 @@ function ScoreDetailsView() {
         </Link>
       </div>
 
-      <div className="mb-6">
-        <h1 className="font-semibold text-3xl">{score?.title}</h1>
-        <ScoreCardStatus score={score} />
+      <div className="flex items-center_ mb-4">
+        <div className="grow">
+          <h1 className="font-semibold text-3xl">{score?.title}</h1>
+          <ScoreCardStatus score={score} />
+        </div>
+
+        {score?.status === ScoreStatus.LIVE && (
+          <Link
+            to={`/scores/${score.id}/end`}
+            className="btn btn-md btn-primary"
+          >
+            End event
+          </Link>
+        )}
+
+        {score?.status === ScoreStatus.UPCOMING && (
+          <button
+            className="btn btn-md btn-primary"
+            onClick={() => setScore({ ...score, status: ScoreStatus.LIVE })}
+          >
+            Start Event
+          </button>
+        )}
       </div>
 
       {score?.status === ScoreStatus.ENDED && (
         <>
           <h5 className="font-semibold">Final results</h5>
-          <ol className="list-inside list-decimal">
+          <ul>
             {score?.participants.map((participant, index) => (
-              <li key={index}>{participant.name}</li>
+              <li key={index}>
+                {ordinal(participant.standing || 0)} place: {participant.name}
+              </li>
             ))}
-          </ol>
+          </ul>
         </>
       )}
 

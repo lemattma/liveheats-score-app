@@ -4,8 +4,9 @@ export enum ScoreStatus {
   ENDED,
 }
 
-type Participant = {
+export type Participant = {
   name: string;
+  standing?: number;
 };
 
 export interface Score {

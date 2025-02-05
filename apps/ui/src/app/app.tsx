@@ -1,13 +1,14 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
+import EndScoreView from '../views/EndScoreView';
 import Header from '../components/Header';
-import { JSX } from 'react';
 import NewScoreView from '../views/NewScoreView';
+import { ReactNode } from 'react';
 import ScoreDetailsView from '../views/ScoreDetailsView';
 import ScoresListView from '../views/ScoresListView';
 
 interface RouteProps {
-  View: () => JSX.Element;
+  View: () => ReactNode;
 }
 
 function Route({ View }: RouteProps) {
@@ -26,6 +27,7 @@ export const router = createBrowserRouter([
   { path: '/', element: <Route View={ScoresListView} /> },
   { path: '/scores', element: <Route View={ScoresListView} /> },
   { path: '/scores/:scoreId', element: <Route View={ScoreDetailsView} /> },
+  { path: '/scores/:scoreId/end', element: <Route View={EndScoreView} /> },
   { path: '/scores/new', element: <Route View={NewScoreView} /> },
 ]);
 

@@ -39,10 +39,17 @@ export async function getScore(id: string): Promise<Score | undefined> {
 }
 
 export async function saveScore(score: Score): Promise<void> {
-  initialScores.push({
+  const scores = await getScores();
+  scores.push({
     ...score,
     id: genScoreId(),
   });
 
-  localStorage.setItem('scores', JSON.stringify(initialScores));
+  localStorage.setItem('scores', JSON.stringify(scores));
+}
+
+export async function updateScore(score: Score): Promise<void> {
+  const scores = await getScores();
+  const updatedScores = scores.map((s) => (s.id === score.id ? score : s));
+  localStorage.setItem('scores', JSON.stringify(updatedScores));
 }
