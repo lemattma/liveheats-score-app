@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+
 import { nxE2EPreset } from '@nx/playwright/preset';
 import { workspaceRoot } from '@nx/devkit';
 
@@ -22,6 +23,8 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
   },
+
+  workers: 1,
   /* Run your local dev server before starting the tests */
   webServer: {
     command: 'yarn nx run ui:preview',

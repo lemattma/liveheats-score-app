@@ -13,4 +13,7 @@ nx serve ui
 
 # run tests
 nx test ui
+
+# run e2e test
+nx e2e ui-e2e --skipNxCache
 ```
