@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 type ScoreCounter = Record<string, number>;
-type StandingsData = {
+export type StandingsData = {
   max: number;
   sum: number;
   number: number;

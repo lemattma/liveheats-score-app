@@ -5,7 +5,7 @@ import { Participant } from '../types/scores';
 import clsx from 'clsx';
 import ordinal from 'ordinal';
 import { useScoreData } from '../hooks/useScoreData';
-import { useStandingData } from '../hooks/useStandingCounter';
+import { useStandingData } from '../hooks/useStandingData';
 
 function EndScoreView() {
   const navigate = useNavigate();
@@ -51,6 +51,7 @@ function EndScoreView() {
         <button
           key={idx}
           type="button"
+          data-testid={`standing-btn-${participantIndex}-${idx}`}
           className={clsx('btn btn-sm _w-12 btn-primary', participant.standing === pos && 'btn-link')}
           disabled={btnIsDisabled}
           onClick={() => standingBtnHandler(participantIndex, pos)}
